@@ -28,6 +28,8 @@ public class AntiSpamFilterAutomaticConfiguration {
 
 	public static void main(String[] args) throws IOException {
 
+		//abc
+		
 		GUI g = new GUI();
 		
 		String experimentBaseDirectory = "experimentBaseDirectory";
