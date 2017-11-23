@@ -65,11 +65,7 @@ public class GUI {
 		panel.add(panel_center, BorderLayout.CENTER);
 		panel.add(panel_south, BorderLayout.SOUTH);
 
-		// JOptionPane jop = new JOptionPane(null, panel)
 		JOptionPane.showMessageDialog(null, panel, "Insira o path para os seguintes ficheiros", 3);
-		// f1.setPreferredSize(new Dimension(200, 20));
-		// f1.setPreferredSize(new Dimension(200, 20));
-		// f1.setPreferredSize(new Dimension(200, 20));
 
 		rules = f1.getText();
 		ham = f2.getText();
