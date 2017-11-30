@@ -2,7 +2,9 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -14,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
@@ -31,7 +34,11 @@ public class GUI {
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
 		addFrameContent();
-		frame.setSize(800, 600);
+		frame.setSize(700, 522);
+		frame.setResizable(false);
+		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setLocation((int) dimension.getWidth() / 2 - (frame.getWidth() / 2),
+				(int) dimension.getHeight() / 2 - (frame.getHeight() / 2));
 		frame.setVisible(true);
 
 	}
@@ -39,11 +46,12 @@ public class GUI {
 	private void addFrameContent() {
 		JPanel bottom_panel = new JPanel();
 		JPanel left_panel = new JPanel();
+		JPanel right_panel = new JPanel();
 
 		// bottom panel components
 
-		JButton random = new JButton("Gerar Aleatóriamente");
-		JButton auto = new JButton("Gerar Automáticamente");
+		JButton random = new JButton("Gerar Aleatoriamente");
+		JButton auto = new JButton("Gerar Automaticamente");
 		JButton avaliate = new JButton("Avaliar Configurações");
 		JButton save = new JButton("Gravar Configurações");
 
@@ -56,33 +64,52 @@ public class GUI {
 
 		// left panel components
 
-		left_panel.setLayout(new GridLayout(2, 1));
+		String[] columnNames = { "Regras", "Pesos" };
 
-		JPanel label_panel = new JPanel();
+		Object[][] data = { { "Regra 1", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 },
+				{ "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 },
+				{ "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 },
+				{ "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 },
+				{ "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 },
+				{ "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 },
+				{ "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 },
+				{ "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 },
+				{ "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 },
+				{ "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 },
+				{ "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 },
+				{ "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 },
+				{ "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 },
+				{ "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 },
+				{ "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 }, { "Regra 2", 0 } };
 
-		label_panel.add(new JLabel("Regras"));
-		label_panel.add(new JLabel("Pesos"));
+		@SuppressWarnings("serial")
+		JTable table = new JTable(data, columnNames) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				if (column == 0)
+					return false;
+				return true;
+			}
+		};
+		JScrollPane scrollPane = new JScrollPane(table);
 
-		JPanel list_panel = new JPanel();
-
-		DefaultListModel<String> rulesModel = new DefaultListModel<>();
-		JList<String> rulesList = new JList<>(rulesModel);
-
-		rulesModel.addElement("rule1");
-		rulesModel.addElement("rule2");
-
-		DefaultListModel<JTextField> textModel = new DefaultListModel<>();
-		JList<JTextField> textList = new JList<>(textModel);
-
-		textModel.addElement(new JTextField("123"));
-
-		list_panel.add(rulesList);
-		list_panel.add(textList);
-
-		left_panel.add(label_panel);
-		left_panel.add(list_panel);
+		left_panel.add(scrollPane);
 
 		frame.add(left_panel, BorderLayout.WEST);
+
+		// right panel components
+
+		right_panel.setLayout(new GridLayout(15, 1));
+
+		JLabel result = new JLabel("                      Resultado");
+		JLabel fp = new JLabel("Falsos Positivos: ");
+		JLabel fn = new JLabel("Falsos Negativos: ");
+
+		right_panel.add(result);
+		right_panel.add(fp);
+		right_panel.add(fn);
+
+		frame.add(right_panel, BorderLayout.CENTER);
 	}
 
 	public void promptPath() {
