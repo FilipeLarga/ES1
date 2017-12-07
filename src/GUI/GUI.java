@@ -2,23 +2,24 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+
+/**
+ * Graphics Unit Interface. The user can see the rules and select the
+ * correspondent weights, as well as see the result of the configuration
+ * 
+ */
 
 public class GUI {
 
@@ -27,6 +28,10 @@ public class GUI {
 	String ham;
 	String spam;
 	private JPanel panel;
+
+	/**
+	 * Creates the gui
+	 */
 
 	public GUI() {
 		promptPath();
@@ -42,6 +47,10 @@ public class GUI {
 		frame.setVisible(true);
 
 	}
+
+	/**
+	 * Adds the components to the frame
+	 */
 
 	private void addFrameContent() {
 		JPanel bottom_panel = new JPanel();
@@ -111,6 +120,10 @@ public class GUI {
 
 		frame.add(right_panel, BorderLayout.CENTER);
 	}
+
+	/**
+	 * Prompts the user for the path to the files
+	 */
 
 	public void promptPath() {
 		panel = new JPanel(new BorderLayout());
