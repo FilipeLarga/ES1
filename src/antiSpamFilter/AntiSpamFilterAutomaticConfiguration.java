@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AntiSpamFilterAutomaticConfiguration {
+	
 	private static final int INDEPENDENT_RUNS = 5;
 
 	public static void main(String[] args) throws IOException {
