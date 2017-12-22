@@ -1,0 +1,48 @@
+Sprint Retrospective #1
+
+Dia: 1.dez.2017
+Hora:16h04
+Todos os membros da equipa encontram-se presentes.
+
+Start doing: 
+ - melhorar a comunicação entre os membros da equipa (reuniões Scrum diárias);
+ - cumprir de forma mais rigorosa os prazos atribuídos a cada tarefa;
+ - atualizar a plataforma Trello à medida que as tarefas vão sendo executadas e terminadas;
+ - melhorar o código fonte;
+
+Keep doing: 
+ - manter o ritmo do trabalho;
+ - pair programming;
+ - revisões de código minuciosas;
+ - inspeção de código periódica;
+ - brainstorming entre todos os membros, pois permite maior compreensão de como implementar as tarefas;
+
+Stop doing:
+ - substimar algumas das tarefas;
+ - demorar mais de 15 minutos nas reuniões Scrum diárias;
+ - comentários relativos à especificação das funcionalidades no código fonte;
+ - desorganização na divisão das tarefas pelos membros de equipa;
+
+-----------------------------------------------------
+
+Sprint Retrospective #2
+
+Dia: 22.dez.2017
+Hora: 15h07
+Todos os membros da equipa encontram-se presentes.
+
+Start doing:
+ - coordenação nas alterações do repositório (incompatibilidade ou demora no carregamento do projeto entre os pc's);
+ - realizar uma tarefa de cada vez;
+ - distribuição organizada das tarefas;
+
+Keep doing:
+ - comunicação entre a equipa;
+ - deteção e consequente resolução de erros;
+ - cumprimento dos prazos das tarefas;
+ - revisões de código minuciosas;
+ - inspeção de código periódica;
+
+Stop doing:
+ - demorar mais de 15 minutos nas reuniões Scrum diárias;
+ - desperdiçar demasiado tempo a discutir problemas que não resultaram;
