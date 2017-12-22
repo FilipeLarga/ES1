@@ -1,6 +1,5 @@
 package antiSpamFilter;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 
 import FileManager.FileManager;
