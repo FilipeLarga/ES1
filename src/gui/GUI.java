@@ -169,6 +169,8 @@ public class GUI {
 					updateWeights(weights);
 					updateResults(new int[] { (int) results[0], (int) results[1] });
 
+					// HV.Boxplot compilation
+
 					String[] params = new String[2];
 
 					params[0] = "C:\\Program Files\\R\\R-3.4.3\\bin\\x64\\Rscript.exe";
@@ -182,8 +184,20 @@ public class GUI {
 					Process p = Runtime.getRuntime().exec(params, envp, new File(
 							"C:\\Users\\Filipe\\git\\ES1-2017-IC1-68\\experimentBaseDirectory\\AntiSpamStudy\\R"));
 
-					System.out.println("123");
+					// AntiSpamStudy.tex compilation
 
+					String[] params2 = new String[2];
+
+					params2[0] = "C:\\Users\\Filipe\\AppData\\Local\\Programs\\MiKTeX 2.9\\miktex\\bin\\x64\\pdflatex.exe";
+
+					params2[1] = "C:\\Users\\Filipe\\git\\ES1-2017-IC1-68\\experimentBaseDirectory\\AntiSpamStudy\\latex\\AntiSpamStudy.tex";
+
+					String[] envp2 = new String[1];
+
+					envp2[0] = "Path=C:\\Users\\Filipe\\AppData\\Local\\Programs\\MiKTeX 2.9\\miktex\\bin\\x64";
+
+					Process p2 = Runtime.getRuntime().exec(params2, envp2, new File(
+							"C:\\Users\\Filipe\\git\\ES1-2017-IC1-68\\experimentBaseDirectory\\AntiSpamStudy\\latex"));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
