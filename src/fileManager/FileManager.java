@@ -240,6 +240,8 @@ public class FileManager {
 	 * "AntiSpamFilterProblem.rf". The preferred result is the one with the fewer
 	 * false negatives.
 	 * 
+	 * @param path
+	 *            The path of the file with the results
 	 * 
 	 * @return The result with the fewer false negatives, created by the JMetal
 	 *         algorithm
@@ -282,6 +284,7 @@ public class FileManager {
 	 * Reads the preferred weights from the file created by the JMetal algorithm
 	 * "AntiSpamFilterProblem.rs"
 	 * 
+	 * @param path The path of the file with the weights
 	 * 
 	 * @return The weights that the JMetal algorithm considered optimal
 	 * @throws FileNotFoundException

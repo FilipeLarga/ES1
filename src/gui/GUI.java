@@ -61,7 +61,10 @@ public class GUI {
 	}
 
 	/**
-	 * Adds the components to the frame
+	 * @param data
+	 *            The JTable wich will be displayed
+	 * 
+	 *            Adds the components to the frame
 	 */
 
 	@SuppressWarnings("serial")
@@ -294,7 +297,7 @@ public class GUI {
 	 * 
 	 * @return the JLabel
 	 */
-	
+
 	public JLabel getFp() {
 		return fp;
 	}
@@ -304,7 +307,7 @@ public class GUI {
 	 * 
 	 * @return the JLabel
 	 */
-	
+
 	public JLabel getFn() {
 		return fn;
 	}
