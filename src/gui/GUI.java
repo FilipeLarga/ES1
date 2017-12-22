@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -23,8 +23,8 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import FileManager.FileManager;
 import antiSpamFilter.AntiSpamFilterAutomaticConfiguration;
+import fileManager.FileManager;
 
 /**
  * Graphics Unit Interface. The user can see the rules and select the
@@ -35,11 +35,16 @@ import antiSpamFilter.AntiSpamFilterAutomaticConfiguration;
 public class GUI {
 
 	private JFrame frame;
-	private String rulesPath;
+	// private String rulesPath;
 	private JPanel panel;
 
 	private JLabel fp;
 	private JLabel fn;
+
+	JButton random;
+	JButton auto;
+	JButton avaliate;
+	JButton save;
 
 	private JTable table;
 	private Object[][] data;
@@ -69,10 +74,10 @@ public class GUI {
 
 		// bottom panel components
 
-		JButton random = new JButton("Gerar Aleatoriamente");
-		JButton auto = new JButton("Gerar Automaticamente");
-		JButton avaliate = new JButton("Avaliar Configurações");
-		JButton save = new JButton("Gravar Configurações");
+		random = new JButton("Gerar Aleatoriamente");
+		auto = new JButton("Gerar Automaticamente");
+		avaliate = new JButton("Avaliar Configurações");
+		save = new JButton("Gravar Configurações");
 
 		bottom_panel.add(random);
 		bottom_panel.add(auto);
@@ -116,11 +121,7 @@ public class GUI {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				for (int i = 0; i < data.length; i++) {
-					data[i][1] = Math.round((ThreadLocalRandom.current().nextDouble(-5, 5) * 10)) / 10D;
-					table.updateUI();
-				}
+				randomButton();
 			}
 		});
 
@@ -129,7 +130,7 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					FileManager.getInstance().saveConfig(data, rulesPath);
+					FileManager.getInstance().saveConfig(data, FileManager.getInstance().getRulesPath());
 				} catch (FileNotFoundException | UnsupportedEncodingException e) {
 				}
 			}
@@ -141,9 +142,6 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					updateResults(FileManager.getInstance().evaluate(data));
-
-					// System.out.println(FileManager.getInstance().evaluate(data)[0] + " | "
-					// + FileManager.getInstance().evaluate(data)[1]);
 				} catch (FileNotFoundException e1) {
 				}
 
@@ -160,8 +158,10 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					new AntiSpamFilterAutomaticConfiguration().start();
-					double[] results = FileManager.getInstance().readResults();
-					double[] weights = FileManager.getInstance().readWeights();
+					double[] results = FileManager.getInstance()
+							.readResults("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.rf");
+					double[] weights = FileManager.getInstance()
+							.readWeights("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.rs");
 					updateWeights(weights);
 					updateResults(new int[] { (int) results[0], (int) results[1] });
 				} catch (IOException e1) {
@@ -279,4 +279,33 @@ public class GUI {
 		}
 	}
 
+	/**
+	 * Fill the weights with random doubles between -5 and 5
+	 */
+	public void randomButton() {
+		for (int i = 0; i < data.length; i++) {
+			data[i][1] = Math.round((ThreadLocalRandom.current().nextDouble(-5, 5) * 10)) / 10D;
+			table.updateUI();
+		}
+	}
+
+	/**
+	 * Getter for the False Positives JLabel
+	 * 
+	 * @return the JLabel
+	 */
+	
+	public JLabel getFp() {
+		return fp;
+	}
+
+	/**
+	 * Getter for the False Negatives JLabel
+	 * 
+	 * @return the JLabel
+	 */
+	
+	public JLabel getFn() {
+		return fn;
+	}
 }

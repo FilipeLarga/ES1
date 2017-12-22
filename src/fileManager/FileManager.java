@@ -1,4 +1,4 @@
-package FileManager;
+package fileManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -50,7 +50,7 @@ public class FileManager {
 		ArrayList<String> rules = new ArrayList<>();
 		while (scanner.hasNextLine()) {
 			String aux = scanner.nextLine();
-			String[] split = aux.split(" ");
+			String[] split = aux.split("	");
 			rules.add(split[0]);
 		}
 		matrix = new Object[rules.size()][2];
@@ -131,7 +131,6 @@ public class FileManager {
 			}
 		}
 		scannerSpam.close();
-
 		return new int[] { fp, fn };
 
 	}
@@ -157,7 +156,7 @@ public class FileManager {
 	public void saveConfig(Object[][] data, String path) throws FileNotFoundException, UnsupportedEncodingException {
 		PrintWriter pw = new PrintWriter(path, "UTF-8");
 		for (int i = 0; i < data.length; i++) {
-			pw.write(data[i][0] + " " + data[i][1] + "\n");
+			pw.write(data[i][0] + "	" + data[i][1] + "\n");
 		}
 		pw.close();
 	}
@@ -248,13 +247,15 @@ public class FileManager {
 	 *             if source is not found
 	 */
 
-	public double[] readResults() throws FileNotFoundException {
+	public double[] readResults(String path) throws FileNotFoundException {
 
-		Scanner scanner = new Scanner(new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.rf"));
+		Scanner scanner = new Scanner(new File(path));
 
 		double[] results = null;
 
 		boolean first = true;
+
+		int counter = 0;
 
 		while (scanner.hasNextLine()) {
 			String aux = scanner.nextLine();
@@ -264,13 +265,14 @@ public class FileManager {
 			if (first || results[1] > nextResults[1]) {
 				first = false;
 				results = nextResults;
-				line++;
+				line = counter;
 			} else if (results[1] == nextResults[1]) {
 				if (results[0] > nextResults[0]) {
 					results = nextResults;
-					line++;
+					line = counter;
 				}
 			}
+			counter++;
 		}
 		scanner.close();
 		return results;
@@ -286,23 +288,22 @@ public class FileManager {
 	 *             if source is not found
 	 */
 
-	public double[] readWeights() throws FileNotFoundException {
+	public double[] readWeights(String path) throws FileNotFoundException {
 
-		Scanner scanner = new Scanner(new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.rs"));
-		int counter = 0;
+		Scanner scanner = new Scanner(new File(path));
+		int counter = 1;
 
 		double[] weights = new double[335];
 
-		while (scanner.hasNextLine() && counter < line) {
+		while (scanner.hasNextLine() && counter <= line + 1) {
 			String aux = scanner.nextLine();
 			String[] split = aux.split(" ");
-
-			counter++;
-			if (line == counter) {
+			if (line + 1 == counter) {
 				for (int x = 0; x < split.length; x++) {
 					weights[x] = Double.parseDouble(split[x]);
 				}
 			}
+			counter++;
 		}
 		scanner.close();
 		return weights;

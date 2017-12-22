@@ -7,7 +7,7 @@ import java.util.List;
 import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
 import org.uma.jmetal.solution.DoubleSolution;
 
-import FileManager.FileManager;
+import fileManager.FileManager;
 
 public class AntiSpamFilterProblem extends AbstractDoubleProblem {
 
@@ -15,7 +15,10 @@ public class AntiSpamFilterProblem extends AbstractDoubleProblem {
 	private Object[][] matrix;
 
 	public AntiSpamFilterProblem() {
-		this(10);
+		this(335);
+		rules = FileManager.getInstance().getRulesArray();
+		matrix = new Object[rules.length][2];
+		addRules();
 	}
 
 	private void addRules() {
@@ -24,9 +27,6 @@ public class AntiSpamFilterProblem extends AbstractDoubleProblem {
 	}
 
 	public AntiSpamFilterProblem(Integer numberOfVariables) {
-		rules = FileManager.getInstance().getRulesArray();
-		matrix = new Object[rules.length][2];
-		addRules();
 
 		setNumberOfVariables(numberOfVariables);
 		setNumberOfObjectives(2);
@@ -57,9 +57,6 @@ public class AntiSpamFilterProblem extends AbstractDoubleProblem {
 
 		try {
 			int results[] = FileManager.getInstance().evaluate(matrix);
-
-//			System.out.println(results[0] + " " + results[1]);
-
 			solution.setObjective(0, results[0]);
 			solution.setObjective(1, results[1]);
 		} catch (FileNotFoundException e) {
