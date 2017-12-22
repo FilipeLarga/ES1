@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -23,6 +24,7 @@ import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import FileManager.FileManager;
+import antiSpamFilter.AntiSpamFilterAutomaticConfiguration;
 
 /**
  * Graphics Unit Interface. The user can see the rules and select the
@@ -36,6 +38,12 @@ public class GUI {
 	private String rulesPath;
 	private JPanel panel;
 
+	private JLabel fp;
+	private JLabel fn;
+
+	private JTable table;
+	private Object[][] data;
+
 	public GUI() {
 		frame = new JFrame("Anti-Spam Filter");
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -45,14 +53,16 @@ public class GUI {
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setLocation((int) dimension.getWidth() / 2 - (frame.getWidth() / 2),
 				(int) dimension.getHeight() / 2 - (frame.getHeight() / 2));
-
 	}
 
 	/**
 	 * Adds the components to the frame
 	 */
 
+	@SuppressWarnings("serial")
 	public void addFrameContent(Object[][] data) {
+		this.data = data;
+
 		JPanel bottom_panel = new JPanel();
 		JPanel left_panel = new JPanel();
 		JPanel right_panel = new JPanel();
@@ -74,8 +84,8 @@ public class GUI {
 		// left panel components
 
 		String[] columnNames = { "Regras", "Pesos" };
-		@SuppressWarnings("serial")
-		JTable table = new JTable(data, columnNames) {
+
+		table = new JTable(data, columnNames) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				if (column == 0)
@@ -99,8 +109,8 @@ public class GUI {
 		right_panel.setLayout(new GridLayout(15, 1));
 
 		JLabel result = new JLabel("                      Resultado");
-		JLabel fp = new JLabel("Falsos Positivos: ");
-		JLabel fn = new JLabel("Falsos Negativos: ");
+		fp = new JLabel("Falsos Positivos: ");
+		fn = new JLabel("Falsos Negativos: ");
 
 		random.addActionListener(new ActionListener() {
 
@@ -108,7 +118,7 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 
 				for (int i = 0; i < data.length; i++) {
-					data[i][1] = ThreadLocalRandom.current().nextInt(-5, 6);
+					data[i][1] = Math.round((ThreadLocalRandom.current().nextDouble(-5, 5) * 10)) / 10D;
 					table.updateUI();
 				}
 			}
@@ -130,7 +140,10 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					System.out.println(FileManager.getInstance().evaluate(data));
+					updateResults(FileManager.getInstance().evaluate(data));
+
+					// System.out.println(FileManager.getInstance().evaluate(data)[0] + " | "
+					// + FileManager.getInstance().evaluate(data)[1]);
 				} catch (FileNotFoundException e1) {
 				}
 
@@ -141,12 +154,29 @@ public class GUI {
 		right_panel.add(fp);
 		right_panel.add(fn);
 
+		auto.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					new AntiSpamFilterAutomaticConfiguration().start();
+					double[] results = FileManager.getInstance().readResults();
+					double[] weights = FileManager.getInstance().readWeights();
+					updateWeights(weights);
+					updateResults(new int[] { (int) results[0], (int) results[1] });
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+
 		frame.add(right_panel, BorderLayout.CENTER);
 		frame.setVisible(true);
 	}
 
 	/**
-	 * Prompts the user for the path to the files, using JOptionPane
+	 * Prompts the user for the path to the files using a JOptionPane
 	 * 
 	 * @return A vector of Strings with the paths to the files rules, ham and spam,
 	 *         respectively
@@ -186,23 +216,67 @@ public class GUI {
 		// paths[1] = f2.getText();
 		// paths[2] = f3.getText();
 
-		paths[0] = "C:/Users/Filipe/Desktop/ES/rules.cf";
-		paths[1] = "C:/Users/Filipe/Desktop/ES/ham.txt";
-		paths[2] = "C:/Users/Filipe/Desktop/ES/spam.log";
+		paths[0] = "C:\\Users\\Filipe\\Desktop\\ES\\rules.cf";
+		paths[1] = "C:\\Users\\Filipe\\Desktop\\ES\\ham.log";
+		// paths[1] = "C:\\Users\\Filipe\\Desktop\\ES\\hamtest.txt";
+		paths[2] = "C:\\Users\\Filipe\\Desktop\\ES\\spam.log";
+		// paths[2] = "C:\\Users\\Filipe\\Desktop\\ES\\spamtest.txt";
 
 		return paths;
 
 	}
 
 	/**
+	 * Displays an error message on the screen with the given message
 	 * 
 	 * @param message
 	 *            Message to display on the error dialog
 	 * @param option
+	 *            Option type
+	 * 
 	 * @return integer according to the option selected
 	 */
 
 	public int displayError(String message, int option) {
 		return JOptionPane.showConfirmDialog(null, message, null, option, JOptionPane.ERROR_MESSAGE);
 	}
+
+	/**
+	 * Displays an error message on the screen with the given message
+	 * 
+	 * @param message
+	 *            Message to display on the error dialog
+	 * 
+	 */
+
+	public void displayError(String message) {
+		JOptionPane.showMessageDialog(null, message);
+	}
+
+	/**
+	 * Updates the results component on the GUI with the given results
+	 * 
+	 * @param results
+	 *            The results of the configuration
+	 */
+
+	public void updateResults(int[] results) {
+		fp.setText("Falsos Positivos: " + results[0]);
+		fn.setText("Falsos Negativos: " + results[1]);
+	}
+
+	/**
+	 * Displays the given weights into the table
+	 * 
+	 * @param weights
+	 *            The weights to be displayed on the table
+	 */
+
+	public void updateWeights(double[] weights) {
+		for (int i = 0; i < data.length; i++) {
+			data[i][1] = weights[i];
+			table.updateUI();
+		}
+	}
+
 }

@@ -24,19 +24,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AntiSpamFilterAutomaticConfiguration {
-	
+
 	private static final int INDEPENDENT_RUNS = 5;
 
-	public static void main(String[] args) throws IOException {
+	public void start() throws IOException {
 
-		//abc
-		
-		GUI g = new GUI();
-		
 		String experimentBaseDirectory = "experimentBaseDirectory";
 
 		List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
-		problemList.add(new ExperimentProblem<>(new AntiSpamFilterProblem()));
+		problemList.add(new ExperimentProblem<>(new AntiSpamFilterProblem(335)));
 
 		List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList = configureAlgorithmList(
 				problemList);
@@ -65,7 +61,7 @@ public class AntiSpamFilterAutomaticConfiguration {
 			Algorithm<List<DoubleSolution>> algorithm = new NSGAIIBuilder<>(problemList.get(i).getProblem(),
 					new SBXCrossover(1.0, 5),
 					new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))
-							.setMaxEvaluations(25000).setPopulationSize(100).build();
+							.setMaxEvaluations(2000).setPopulationSize(100).build();
 			algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAII", problemList.get(i).getTag()));
 		}
 
