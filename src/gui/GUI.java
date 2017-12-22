@@ -36,7 +36,6 @@ import fileManager.FileManager;
 public class GUI {
 
 	private JFrame frame;
-	// private String rulesPath;
 	private JPanel panel;
 
 	private JLabel fp;
@@ -246,15 +245,9 @@ public class GUI {
 
 		JOptionPane.showMessageDialog(null, panel, "Insira o path para os seguintes ficheiros", 3);
 
-		// paths[0] = f1.getText();
-		// paths[1] = f2.getText();
-		// paths[2] = f3.getText();
-
-		paths[0] = "C:\\Users\\Filipe\\Desktop\\ES\\rules.cf";
-		paths[1] = "C:\\Users\\Filipe\\Desktop\\ES\\ham.log";
-		// paths[1] = "C:\\Users\\Filipe\\Desktop\\ES\\hamtest.txt";
-		paths[2] = "C:\\Users\\Filipe\\Desktop\\ES\\spam.log";
-		// paths[2] = "C:\\Users\\Filipe\\Desktop\\ES\\spamtest.txt";
+		paths[0] = f1.getText();
+		paths[1] = f2.getText();
+		paths[2] = f3.getText();
 
 		return paths;
 
