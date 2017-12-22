@@ -11,6 +11,7 @@ import FileManager.FileManager;
 class FileManagerTest {
 
 	// Insert correct paths here: rules, ham, spam.
+	//123
 
 	String[] paths = new String[] { "C:\\Users\\Filipe\\Desktop\\ES\\rules.cf",
 			"C:\\Users\\Filipe\\Desktop\\ES\\ham.log", "C:\\Users\\Filipe\\Desktop\\ES\\ham.log" };
