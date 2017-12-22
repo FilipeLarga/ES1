@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -167,6 +168,22 @@ public class GUI {
 							.readWeights("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.rs");
 					updateWeights(weights);
 					updateResults(new int[] { (int) results[0], (int) results[1] });
+
+					String[] params = new String[2];
+
+					params[0] = "C:\\Program Files\\R\\R-3.4.3\\bin\\x64\\Rscript.exe";
+
+					params[1] = "C:\\Users\\Filipe\\git\\ES1-2017-IC1-68\\experimentBaseDirectory\\AntiSpamStudy\\R\\HV.Boxplot.R";
+
+					String[] envp = new String[1];
+
+					envp[0] = "Path=C:\\Program Files\\R\\R-3.4.1\\bin\\x64";
+
+					Process p = Runtime.getRuntime().exec(params, envp, new File(
+							"C:\\Users\\Filipe\\git\\ES1-2017-IC1-68\\experimentBaseDirectory\\AntiSpamStudy\\R"));
+
+					System.out.println("123");
+
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
